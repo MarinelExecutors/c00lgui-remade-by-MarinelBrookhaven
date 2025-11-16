@@ -1,0 +1,335 @@
+-- C00lgui by MarinelExecutors on github. Have fun exploiting >:)
+print("^C00lgui by MarinelExecutors on github. Have fun exploiting >:)^")
+print("Succesfully Executed Coolgui By MarinelExecutors on guthub and grok ai.")
+print(" Shoutout for Grok AI for making this art. ")
+
+-- Services
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local Players = game:GetService("Players")
+local ReplicatedStorage = = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+local StarterGui = game:GetService("StarterGui")
+local TextChatService = game:GetService("TextChatService")
+
+-- Detect device
+local isMobile = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
+
+-- === GUI SETUP ===
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "C00lgui by GrokAI & MarinelBrookhaven"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = game:GetService("CoreGui")
+
+-- Main Frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = isMobile and UDim2.new(0, 300, 0, 420) or UDim2.new(0, 460, 0, 600)
+mainFrame.Position = UDim2.new(0.5, -mainFrame.Size.X.Offset/2, 0.5, -mainFrame.Size.Y.Offset/2)
+mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 14)
+corner.Parent = mainFrame
+
+-- Title Bar
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 44)
+titleBar.BackgroundColor3 = Color3.fromRGB(30, 130, 255)
+titleBar.BorderSizePixel = 0
+titleBar.Parent = mainFrame
+
+local titleCorner = Instance.new("UICorner")
+titleCorner.CornerRadius = UDim.new(0, 14)
+titleCorner.Parent = titleBar
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -90, 1, 0)
+titleLabel.Position = UDim2.new(0, 12, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "C00lgui By Marinel And GrokAI"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = isMobile and 17 or 21
+titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+titleLabel.Parent = titleBar
+
+-- Close Button
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 32, 0, 32)
+closeButton.Position = UDim2.new(1, -44, 0, 6)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 18
+closeButton.Parent = titleBar
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 8)
+closeCorner.Parent = closeButton
+
+-- Minimize Button
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Size = UDim2.new(0, 32, 0, 32)
+minimizeButton.Position = UDim2.new(1, -88, 0, 6)
+minimizeButton.BackgroundColor3 = Color3.fromRGB(255, 200, 50)
+minimizeButton.Text = "−"
+minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+minimizeButton.Font = Enum.Font.GothamBold
+minimizeButton.TextSize = 22
+minimizeButton.Parent = titleBar
+
+local minCorner = Instance.new("UICorner")
+minCorner.CornerRadius = UDim.new(0, 8)
+minCorner.Parent = minimizeButton
+
+-- Scrolling Frame
+local scrollFrame = Instance.new("ScrollingFrame")
+scrollFrame.Size = UDim2.new(1, -24, 1, -70)
+scrollFrame.Position = UDim2.new(0, 12, 0, 56)
+scrollFrame.BackgroundTransparency = 1
+scrollFrame.BorderSizePixel = 0
+scrollFrame.ScrollBarThickness = 7
+scrollFrame.ScrollBarImageColor3 = Color3.fromRGB(30, 130, 255)
+scrollFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+scrollFrame.Parent = mainFrame
+
+local listLayout = Instance.new("UIListLayout")
+listLayout.Padding = UDim.new(0, 10)
+listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+listLayout.Parent = scrollFrame
+
+-- Button Template
+local function createButton(name, desc, callback)
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(1, 0, 0, 60)
+	btn.BackgroundColor3 = Color3.fromRGB(35, 35, 55)
+	btn.BorderSizePixel = 0
+	btn.Text = ""
+	btn.Parent = scrollFrame
+
+	local btnCorner = Instance.new("UICorner")
+	btnCorner.CornerRadius = UDim.new(0, 10)
+	btnCorner.Parent = btn
+
+	local title = Instance.new("TextLabel")
+	title.Size = UDim2.new(1, -12, 0.5, 0)
+	title.Position = UDim2.new(0, 6, 0, 0)
+	title.BackgroundTransparency = 1
+	title.Text = name
+	title.TextColor3 = Color3.fromRGB(255, 255, 255)
+	title.Font = Enum.Font.GothamBold
+	title.TextSize = isMobile and 15 or 17
+	title.TextXAlignment = Enum.TextXAlignment.Left
+	title.Parent = btn
+
+	local descLabel = Instance.new("TextLabel")
+	descLabel.Size = UDim2.new(1, -12, 0.5, 0)
+	descLabel.Position = UDim2.new(0, 6, 0.5, 0)
+	descLabel.BackgroundTransparency = 1
+	descLabel.Text = desc
+	descLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+	descLabel.Font = Enum.Font.Gotham
+	descLabel.TextSize = isMobile and 12 or 14
+	descLabel.TextXAlignment = Enum.TextXAlignment.Left
+	descLabel.Parent = btn
+
+	-- Hover
+	btn.MouseEnter:Connect(function()
+		TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 50, 80)}):Play()
+	end)
+	btn.MouseLeave:Connect(function()
+		TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(35, 35, 55)}):Play()
+	end)
+
+	btn.MouseButton1Click:Connect(callback)
+	return btn
+end
+
+-- === CHAT SYNC SYSTEM (BUBBLE + TEXT CHAT) ===
+local chatSyncEnabled = false
+local chatHookActive = false
+
+local function enableChatSync()
+	if chatSyncEnabled then return end
+	chatSyncEnabled = true
+
+	-- Hook old chat
+	if game:GetService("Chat"):FindFirstChild("ChatSpeaker") then
+		local speaker = game:GetService("Chat"):GetSpeaker(Players.LocalPlayer.Name)
+		if speaker then
+			speaker.SayMessage = function(self, message, channel)
+				-- Send to everyone via ReplicatedStorage (FE)
+				pcall(function()
+					ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, "All")
+				end)
+				-- Force bubble chat
+				Players:Chat(message)
+			end
+		end
+	end
+
+	-- Hook new TextChatService
+	if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+		local textChannel = TextChatService.TextChannels:FindFirstChild("RBXSystem") or TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+		if textChannel then
+			textChannel.OnMessageDoneFiltering:Connect(function(messageData)
+				if messageData.FromSpeaker == Players.LocalPlayer.Name then
+					-- Force bubble chat
+					Players:Chat(messageData.Text)
+					-- Re-broadcast via old method
+					pcall(function()
+						ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(messageData.Text, "All")
+					end)
+				end
+			end)
+		end
+	end
+
+	-- Key press to type
+	UserInputService.InputBegan:Connect(function(input, gameProcessed)
+		if gameProcessed then return end
+		if input.KeyCode == Enum.KeyCode.T then
+			-- Open chat and sync
+			if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+				TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage("")
+				wait(0.1)
+				StarterGui:SetCore("ChatActive", true)
+			else
+				StarterGui:SetCore("ChatActive", true)
+			end
+		end
+	end)
+
+	StarterGui:SetCore("SendNotification", {Title="Chat Sync", Text="Everyone repeats you! (Bubble + Chat)", Duration=4})
+end
+
+-- === FE COMMANDS ===
+
+createButton("FE Skybox: Nebula", "Purple galaxy for all", function()
+	local sky = Instance.new("Sky")
+	sky.SkyboxBk = "http://www.roblox.com/asset/?id=271042516"
+	sky.SkyboxDn = "http://www.roblox.com/asset/?id=271042516"
+	sky.SkyboxFt = "http://www.roblox.com/asset/?id=271042516"
+	sky.SkyboxLf = "http://www.roblox.com/asset/?id=271042516"
+	sky.SkyboxRt = "http://www.roblox.com/asset/?id=271042516"
+	sky.SkyboxUp = "http://www.roblox.com/asset/?id=271042516"
+	sky.Parent = Lighting
+end)
+
+createButton("FE Fog: Blood Red", "Red fog everywhere", function()
+	Lighting.FogColor = Color3.fromRGB(150, 0, 0)
+	Lighting.FogEnd = 80
+	Lighting.FogStart = 0
+end)
+
+createButton("FE Midnight", "Darkness falls", function()
+	Lighting.ClockTime = 0
+	Lighting.Brightness = 0.3
+end)
+
+createButton("FE Disco Strobe", "Flashing lights", function()
+	spawn(function()
+		while wait(0.15) do
+			Lighting.Brightness = math.random(1, 6)
+			Lighting.Ambient = Color3.fromHSV(tick() % 1, 1, 1)
+		end
+	end)
+end)
+
+createButton("FE Explosion Rain", "Boom boom boom", function()
+	spawn(function()
+		while wait(0.6) do
+			local pos = Vector3.new(math.random(-300, 300), 80, math.random(-300, 300))
+			local exp = Instance.new("Explosion")
+			exp.Position = pos
+			exp.BlastRadius = 40
+			exp.BlastPressure = 0
+			exp.Parent = Workspace
+		end
+	end)
+end)
+
+createButton("FE Rickroll Sound", "Never gonna...", function()
+	local sound = Instance.new("Sound")
+	sound.SoundId = "rbxassetid://1838457617"
+	sound.Volume = 6
+	sound.Looped = true
+	sound.Parent = Workspace
+	sound:Play()
+end)
+
+createButton("FE Chat Spam", "C00lGUI was here!", function()
+	for i = 1, 6 do
+		ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("C00lGUI by MarinelExecutors", "All")
+		wait(1.2)
+	end
+end)
+
+-- === CHAT SYNC BUTTON ===
+createButton("Enable Chat Sync", "Everyone repeats you (Bubble + Chat)", function()
+	enableChatSync()
+end)
+
+createButton("Destroy GUI", "Close C00lGUI", function()
+	screenGui:Destroy()
+end)
+
+-- === BUTTON ACTIONS ===
+closeButton.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+local minimized = false
+minimizeButton.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	if minimized then
+		TweenService:Create(mainFrame, TweenInfo.new(0.3), {Size = UDim2.new(0, mainFrame.Size.X.Offset, 0, 44)}):Play()
+		scrollFrame.Visible = false
+	else
+		TweenService:Create(mainFrame, TweenInfo.new(0.3), {Size = isMobile and UDim2.new(0, 300, 0, 420) or UDim2.new(0, 460, 0, 600)}):Play()
+		wait(0.3)
+		scrollFrame.Visible = true
+	end
+end)
+
+-- === MOBILE DRAG ===
+if isMobile then
+	local dragging = false
+	local dragStart, startPos
+
+	titleBar.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = mainFrame.Position
+		end
+	end)
+
+	titleBar.InputChanged:Connect(function(input)
+		if dragging and input.UserInputType == Enum.UserInputType.Touch then
+			local delta = input.Position - dragStart
+			mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+		end
+	end)
+
+	titleBar.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.Touch then
+			dragging = false
+		end
+	end)
+end
+
+-- === LOAD NOTIF ===
+StarterGui:SetCore("SendNotification", {
+	Title = "C00lGUI By MarinelBrookhaven & Grok. The Troll!",
+	Text = "Press T to chat → Everyone repeats you!",
+	Duration = 6
+})
